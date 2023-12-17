@@ -21,6 +21,7 @@
 #define DRIVERS_HPP_
 
 #include "tap/drivers.hpp"
+#include "robot/standard.hpp"
 
 namespace src
 {
