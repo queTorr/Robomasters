@@ -1,8 +1,5 @@
-#ifndef CHASSISTANKDRIVE_SUBSYSTEM_HPP_
-#define CHASSISTANKDRIVE_SUBSYSTEM_HPP_
-
 #include "tap/control/command.hpp"
-#include "chassistankdrive_subsystem.hpp"
+#include "agitator_subsystem.hpp"
 #include "drivers.hpp"
 
 namespace control
@@ -10,17 +7,16 @@ namespace control
 class ControlOperatorInterface;
 }
 
-
-namespace control::chassis{
+namespace control::agitator{
 
 class ChassisTankDriveCommand : public tap::control::Command
 {
     public:
     static constexpr float MAX_CHASSIS_SPEED_MPS = 3.0f;
 
-    ChassisTankDriveCommand(src::Drivers* drivers, ChassisTankSubsystem* chassisTank);
+    ChassisTankDriveCommand(src::Drivers* drivers, AgitatorSubsystem* agitatorSubsystem);
    
-    const char *getName() const override { return "Chassis tank drive"; }
+    const char *getName() const override { return "agitator command"; }
     bool isReady() override;
     void initialize() override;
     void execute() override;
@@ -30,10 +26,8 @@ class ChassisTankDriveCommand : public tap::control::Command
     private:
 
     src::Drivers* drivers;
-    ChassisTankSubsystem* chassisTank;
+    AgitatorSubsystem* agitatorSubsystem;
 
 };
 
 }//namespace:chassis
-
-#endif

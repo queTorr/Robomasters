@@ -26,7 +26,7 @@
 #endif
 
 #include "tap/board/board.hpp"
-
+#include "control/standard.hpp"
 #include "modm/architecture/interface/delay.hpp"
 
 /* arch includes ------------------------------------------------------------*/
@@ -50,6 +50,7 @@ tap::arch::PeriodicMilliTimer sendMotorTimeout(2);
 // serial init stuff here.
 static void initializeIo(src::Drivers *drivers);
 
+
 // Anything that you would like to be called place here. It will be called
 // very frequently. Use PeriodicMilliTimers if you don't want something to be
 // called as frequently.
@@ -67,9 +68,11 @@ int main()
      *      IO states and run the scheduler.
      */
     src::Drivers *drivers = src::DoNotUse_getDrivers();
-
+    control::Standard standard(drivers);
     Board::initialize();
     initializeIo(drivers);
+    
+    standard.initSubsystemCommands();
 
 #ifdef PLATFORM_HOSTED
     tap::motorsim::SimHandler::resetMotorSims();
@@ -121,3 +124,4 @@ static void updateIo(src::Drivers *drivers)
     drivers->remote.read();
     drivers->mpu6500.read();
 }
+

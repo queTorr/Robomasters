@@ -1,9 +1,7 @@
 
+#ifndef CHASSISTANKDRIVE_COMMAND_HPP_
+#define CHASSISTANKDRIVE_COMMAND_HPP_
 
-#include "tap/util_macros.hpp"
-#include "modm/math/filter/pid.hpp"
-#include <cmath>
-#include "tap/algorithms/smooth_pid.hpp"
 #include "tap/motor/dji_motor.hpp"
 #include "drivers_singleton.hpp"
 #include "tap/control/subsystem.hpp"
@@ -17,9 +15,7 @@ class ChassisTankSubsystem: public tap::control::Subsystem
 
     static constexpr float MAX_WHEELSPEED_RPM = 7000;
 
-    ChassisTankSubsystem(tap::Drivers* drivers, tap::motor::MotorId leftFrontMotorID, 
-                        tap::motor::MotorId rightFrontMotorID, tap::motor::MotorId leftBackMotorID, 
-                        tap::motor::MotorId rightBackMotorID, tap::can::CanBus canBus);
+    ChassisTankSubsystem(src::Drivers* drivers);
 
     void initialize() override;
 
@@ -40,7 +36,19 @@ class ChassisTankSubsystem: public tap::control::Subsystem
 
     private:
 
+    static constexpr tap::motor::MotorId LEFT_FRONT_MOTOR_ID = tap::motor::MOTOR3;
+    static constexpr tap::motor::MotorId LEFT_BACK_MOTOR_ID = tap::motor::MOTOR1;
+    static constexpr tap::motor::MotorId RIGHT_FRONT_MOTOR_ID = tap::motor::MOTOR2;
+    static constexpr tap::motor::MotorId RIGHT_BACK_MOTOR_ID = tap::motor::MOTOR4;
+    static constexpr tap::can::CanBus CAN_BUS_MOTORS = tap::can::CanBus::CAN_BUS1;
+
+    src::Drivers* drivers;
+
     float desiredOutput[4];
+    float leftFrontMotorOutput;
+    float leftBackMotorOutput;
+    float rightFrontMotorOutput;
+    float rightBackMotorOutput;
 
     modm::Pid<float> velocityPid[4];
     modm::Pid<float> leftFrontMotorPid;
@@ -57,3 +65,5 @@ class ChassisTankSubsystem: public tap::control::Subsystem
 };
 
 }//namespace
+
+#endif

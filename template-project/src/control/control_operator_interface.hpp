@@ -1,10 +1,9 @@
-
+#pragma once
+#ifndef CONTROL_OPERATOR_INTERFACE_HPP_
+#define CONTROL_OPERATOR_INTERFACE_HPP_
 #include "tap/util_macros.hpp"
-
-namespace tap::communication::serial
-{
-class Remote;
-}
+#include "tap/drivers.hpp"
+#include "tap/communication/serial/remote.hpp"
 
 namespace control
 {
@@ -12,12 +11,16 @@ class ControlOperatorInterface
 {
 public:
 
-    ControlOperatorInterface(tap::communication::serial::Remote &remote);
+    ControlOperatorInterface(tap::Drivers* drivers);
 
     virtual float getChassisTankLeftInput();
     virtual float getChassisTankRightInput();
+    virtual float getAgitatorInput();
 
 private:
-    tap::communication::serial::Remote &remote;
+    tap::Drivers* drivers;
+    //tap::communication::serial::Remote* remote;
 };
 }  // namespace control
+
+#endif
